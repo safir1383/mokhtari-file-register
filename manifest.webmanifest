@@ -1,0 +1,9 @@
+{
+  "name": "Mokhtari File Register",
+  "short_name": "File Register",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f8",
+  "theme_color": "#1f365c",
+  "description": "Mokhtari Legal Services client file number generator and file register."
+}
