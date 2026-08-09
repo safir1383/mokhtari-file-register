@@ -1,107 +1,25 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1f365c">
-<link rel="manifest" href="manifest.webmanifest">
-<title>Mokhtari File Register</title>
-<style>
-body{font-family:Arial,sans-serif;background:#f4f6f8;margin:0;padding:14px;color:#222}
-.card{max-width:760px;margin:auto;background:#fff;border-radius:16px;padding:20px;box-shadow:0 3px 16px #0002}
-h1{text-align:center;font-size:23px;margin:0}.sub{text-align:center;font-size:13px;line-height:1.5;margin:6px 0 20px}
-label{display:block;font-weight:700;margin:14px 0 6px;font-size:15px}
-input,select{width:100%;box-sizing:border-box;padding:12px;font-size:16px;border:1px solid #aaa;border-radius:9px;background:#fff}
-button{width:100%;padding:13px;margin-top:15px;border:0;border-radius:9px;font-weight:700;font-size:15px}
-.primary{background:#1f365c;color:#fff}.secondary{background:#e9edf3;color:#1f365c}.danger{background:#f5e7e7;color:#7b2020}
-#result{margin-top:18px;border:2px solid #1f365c;border-radius:10px;padding:15px;text-align:center;font-size:20px;font-weight:700;word-break:break-word}
-table{width:100%;border-collapse:collapse;margin-top:15px;font-size:12px}th,td{border:1px solid #ccc;padding:7px;text-align:left;vertical-align:top}th{background:#eef1f5}
-.scroll{overflow-x:auto}.note{font-size:12px;color:#666;margin-top:6px}.footer{text-align:center;font-size:11px;color:#666;margin-top:22px;line-height:1.5}
-.install-note{background:#eef4ff;border-radius:9px;padding:10px;font-size:12px;margin-bottom:12px}
-</style>
-</head>
-<body>
-<div class="card">
-<h1>Mokhtari Legal Services</h1>
-<div class="sub">Licensed Paralegal and Notary Public<br><b>Client File Number Generator & File Register</b></div>
-<div class="install-note">When hosted on HTTPS, this can be installed on Android from Chrome as an app and can work offline after the first load.</div>
-
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1f365c"><link rel="manifest" href="manifest.webmanifest"><title>Mokhtari File Register</title>
+<style>body{font-family:Arial;background:#f4f6f8;margin:0;padding:14px;color:#222}.card{max-width:760px;margin:auto;background:#fff;border-radius:16px;padding:20px;box-shadow:0 3px 16px #0002}h1{text-align:center;font-size:23px;margin:0}.sub{text-align:center;font-size:13px;line-height:1.5;margin:6px 0 20px}label{display:block;font-weight:700;margin:14px 0 6px}input,select{width:100%;box-sizing:border-box;padding:12px;font-size:16px;border:1px solid #aaa;border-radius:9px;background:#fff}button{width:100%;padding:13px;margin-top:15px;border:0;border-radius:9px;font-weight:700}.primary{background:#1f365c;color:white}.secondary{background:#e9edf3;color:#1f365c}.danger{background:#f5e7e7;color:#7b2020}#result{margin-top:18px;border:2px solid #1f365c;border-radius:10px;padding:15px;text-align:center;font-size:20px;font-weight:700;word-break:break-word}table{width:100%;border-collapse:collapse;margin-top:15px;font-size:12px}th,td{border:1px solid #ccc;padding:7px;text-align:left}th{background:#eef1f5}.scroll{overflow-x:auto}.note{font-size:12px;color:#666;margin-top:6px}.footer{text-align:center;font-size:11px;color:#666;margin-top:22px;line-height:1.5}</style></head>
+<body><div class="card"><h1>Mokhtari Legal Services</h1><div class="sub">Licensed Paralegal and Notary Public<br><b>Client File Number Generator & File Register</b></div>
 <label>Client Name</label><input id="client" placeholder="e.g. John Smith">
-<label>Jurisdiction / Matter Type</label>
-<select id="jur">
-<option value="">Select...</option>
-<option value="SCC">SCC - Small Claims Court</option>
-<option value="LTB">LTB - Landlord and Tenant Board</option>
-<option value="IRB">IRB - Immigration and Refugee Board of Canada</option>
-<option value="SC">SC - Summary Conviction</option>
-<option value="POA">POA - Provincial Offences Act</option>
-</select>
+<label>Jurisdiction / Matter Type</label><select id="jur"><option value="">Select...</option><option value="SCC">SCC - Small Claims Court</option><option value="LTB">LTB - Landlord and Tenant Board</option><option value="IRB">IRB - Immigration and Refugee Board of Canada</option><option value="SC">SC - Summary Conviction</option><option value="POA">POA - Provincial Offences Act</option></select>
 <label>Matter / Charge</label><input id="matter" placeholder="e.g. Fail to Stop">
-<label>Short Code</label><input id="code" placeholder="e.g. FTS" maxlength="8">
-<div class="note">Example: FTS = Fail to Stop.</div>
+<label>Automatic Matter Code</label><input id="code" readonly placeholder="Generated automatically"><div class="note">Common matters use predefined codes; other matters are abbreviated automatically.</div>
 <label>File Date</label><input id="date" type="date">
-
-<button class="primary" onclick="generate()">GENERATE & SAVE FILE</button>
-<div id="result">—</div>
-<button class="secondary" onclick="copyNo()">COPY FILE NUMBER</button>
-
-<h2 style="font-size:18px;margin-top:28px">File Register</h2>
-<div class="note">Saved locally on this device/browser. Sequence is automatic.</div>
-<div class="scroll"><table><thead><tr><th>File #</th><th>Client</th><th>Matter</th><th>Date</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
-<button class="secondary" onclick="exportCSV()">EXPORT REGISTER (CSV)</button>
-<button class="danger" onclick="clearAll()">CLEAR REGISTER</button>
-
-<div class="footer">6013 Yonge St unit 315, North York, On. M2M3W2<br>647-530-1741</div>
-</div>
-
+<button class="primary" onclick="generate()">GENERATE & SAVE FILE</button><div id="result">—</div><button class="secondary" onclick="copyNo()">COPY FILE NUMBER</button>
+<h2>File Register</h2><div class="scroll"><table><thead><tr><th>File #</th><th>Client</th><th>Matter</th><th>Date</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+<button class="secondary" onclick="exportCSV()">EXPORT REGISTER (CSV)</button><button class="danger" onclick="clearAll()">CLEAR REGISTER</button>
+<div class="footer">6013 Yonge St unit 315, North York, On. M2M3W2<br>647-530-1741</div></div>
 <script>
 const KEY="mokhtari_file_register_v1";
-function records(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}}
-function save(a){localStorage.setItem(KEY,JSON.stringify(a))}
-function esc(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
-function nextSeq(prefix,date){
-  const d=date.replaceAll("-","");
-  let max=0;
-  records().forEach(r=>{
-    let m=r.file.match(new RegExp("^"+prefix+"-"+d+"-[A-Z0-9]+-(\\d+)$"));
-    if(m) max=Math.max(max,parseInt(m[1],10)||0);
-  });
-  return String(max+1).padStart(3,"0");
-}
-function generate(){
-  const client=document.getElementById("client").value.trim();
-  const jur=document.getElementById("jur").value;
-  const matter=document.getElementById("matter").value.trim();
-  const code=document.getElementById("code").value.toUpperCase().replace(/[^A-Z0-9]/g,"");
-  const date=document.getElementById("date").value;
-  if(!client||!jur||!matter||!code||!date){alert("Please complete all fields.");return}
-  const seq=nextSeq(jur,date), d=date.replaceAll("-","");
-  const file=`${jur}-${d}-${code}-${seq}`;
-  let a=records(); a.push({file,client,jur,matter,code,date,created:new Date().toISOString()}); save(a);
-  document.getElementById("result").textContent=file; render();
-}
-function render(){
-  const a=records().slice().reverse();
-  document.getElementById("rows").innerHTML=a.length?a.map(r=>`<tr><td><b>${esc(r.file)}</b></td><td>${esc(r.client)}</td><td>${esc(r.matter)}</td><td>${esc(r.date)}</td><td><button style="margin:0;padding:5px;font-size:11px" onclick="del('${r.file}')">Delete</button></td></tr>`).join(""):`<tr><td colspan="5">No files saved yet.</td></tr>`;
-}
-function del(f){if(confirm("Delete this register entry?")){save(records().filter(r=>r.file!==f));render()}}
-async function copyNo(){
-  let t=document.getElementById("result").textContent;
-  if(t==="—")return alert("Generate a file first.");
-  try{await navigator.clipboard.writeText(t);alert("Copied.")}catch(e){alert(t)}
-}
-function exportCSV(){
-  let a=records(); if(!a.length)return alert("No records to export.");
-  let q=s=>'"'+String(s??"").replaceAll('"','""')+'"';
-  let csv="File Number,Client,Jurisdiction,Matter,Short Code,Date\n"+a.map(r=>[r.file,r.client,r.jur,r.matter,r.code,r.date].map(q).join(",")).join("\n");
-  let blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),u=URL.createObjectURL(blob),x=document.createElement("a");
-  x.href=u;x.download="Mokhtari_File_Register.csv";x.click();URL.revokeObjectURL(u);
-}
-function clearAll(){if(confirm("Delete ALL saved file-register entries from this device?")){localStorage.removeItem(KEY);document.getElementById("result").textContent="—";render()}}
-document.addEventListener("DOMContentLoaded",()=>{
-  let d=new Date(),local=new Date(d-d.getTimezoneOffset()*60000).toISOString().slice(0,10);
-  document.getElementById("date").value=local; render();
-  if("serviceWorker" in navigator){navigator.serviceWorker.register("./service-worker.js").catch(()=>{});}
-});
-</script>
-</body></html>
+const C={"fail to stop":"FTS","speeding":"SPD","careless driving":"CD","stunt driving":"SD","drive under suspension":"DUS","driving under suspension":"DUS","no insurance":"NI","red light":"RL","disobey red light":"DRL","use hand-held device":"HHD","handheld device":"HHD","breach of contract":"BOC","unpaid invoice":"UI","debt collection":"DC","property damage":"PD","negligence":"NEG","wrongful dismissal":"WD","non-payment of rent":"NPR","non payment of rent":"NPR","rent arrears":"RA","eviction":"EV","maintenance":"MNT","tenant application":"TA","landlord application":"LA","refugee protection division":"RPD","refugee appeal division":"RAD","immigration division":"ID","immigration appeal division":"IAD","detention review":"DR","admissibility hearing":"AH","refugee claim":"RC","refugee appeal":"RA","assault":"ASLT","theft":"THFT","mischief":"MIS","fraud":"FRD","criminal harassment":"CH","failure to comply":"FTC","fail to comply":"FTC"};
+function records(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}} function save(a){localStorage.setItem(KEY,JSON.stringify(a))}
+function code(t){let x=t.trim().toLowerCase().replace(/[^a-z0-9\s-]/g,"").replace(/\s+/g," ");if(C[x])return C[x];let stop=new Set(["to","of","the","a","an","and","or","for","in","on","with","without","under"]);let w=x.split(/[\s-]+/).filter(v=>v&&!stop.has(v));if(!w.length)return"";return w.length==1?w[0].slice(0,4).toUpperCase():w.map(v=>v[0]).join("").slice(0,6).toUpperCase()}
+function nextSeq(j,d){d=d.replaceAll("-","");let max=0;records().forEach(r=>{let m=r.file.match(new RegExp("^"+j+"-"+d+"-[A-Z0-9]+-(\\d+)$"));if(m)max=Math.max(max,+m[1])});return String(max+1).padStart(3,"0")}
+function generate(){let client=document.getElementById("client").value.trim(),j=document.getElementById("jur").value,m=document.getElementById("matter").value.trim(),c=code(m),d=document.getElementById("date").value;document.getElementById("code").value=c;if(!client||!j||!m||!c||!d)return alert("Please complete all required fields.");let f=j+"-"+d.replaceAll("-","")+"-"+c+"-"+nextSeq(j,d),a=records();a.push({file:f,client,jur:j,matter:m,code:c,date:d});save(a);document.getElementById("result").textContent=f;render()}
+function render(){let a=records().slice().reverse();document.getElementById("rows").innerHTML=a.length?a.map(r=>`<tr><td><b>${r.file}</b></td><td>${r.client}</td><td>${r.matter}</td><td>${r.date}</td><td><button onclick="del('${r.file}')">Delete</button></td></tr>`).join(""):'<tr><td colspan="5">No files saved yet.</td></tr>'}
+function del(f){if(confirm("Delete this entry?")){save(records().filter(r=>r.file!==f));render()}} async function copyNo(){let t=document.getElementById("result").textContent;if(t==="—")return;try{await navigator.clipboard.writeText(t);alert("Copied.")}catch(e){alert(t)}}
+function exportCSV(){let a=records();if(!a.length)return alert("No records.");let q=s=>'"'+String(s??"").replaceAll('"','""')+'"',csv="File Number,Client,Jurisdiction,Matter,Short Code,Date\n"+a.map(r=>[r.file,r.client,r.jur,r.matter,r.code,r.date].map(q).join(",")).join("\n"),b=new Blob([csv],{type:"text/csv"}),u=URL.createObjectURL(b),x=document.createElement("a");x.href=u;x.download="Mokhtari_File_Register.csv";x.click();URL.revokeObjectURL(u)}
+function clearAll(){if(confirm("Delete ALL entries?")){localStorage.removeItem(KEY);render()}}
+document.addEventListener("DOMContentLoaded",()=>{let d=new Date();document.getElementById("date").value=new Date(d-d.getTimezoneOffset()*60000).toISOString().slice(0,10);document.getElementById("matter").addEventListener("input",e=>document.getElementById("code").value=code(e.target.value));render();if("serviceWorker"in navigator)navigator.serviceWorker.register("./service-worker.js").catch(()=>{})});
+</script></body></html>
