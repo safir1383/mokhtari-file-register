@@ -1,9 +1,18 @@
 {
   "name": "Mokhtari File Register",
   "short_name": "File Register",
+  "description": "Offline client file number generator and local file register for Mokhtari Legal Services.",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f4f6f8",
   "theme_color": "#1f365c",
-  "description": "Mokhtari Legal Services client file number generator and file register."
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
